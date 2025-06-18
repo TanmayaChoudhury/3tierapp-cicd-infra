@@ -27,19 +27,19 @@ Before you begin, ensure you have the following:
 ### 🔐 Authentication Setup
 
 
-#Login to Azure CLI
+Login to Azure CLI
 
 ```console
 az login
 ```
 
-#Set the subscription (if you have multiple)
+Set the subscription (if you have multiple)
 
 ```console
 az account set --subscription "your-subscription-id"
 ```
 
-#Verify your current subscription
+Verify your current subscription
 
 ```console
 az account show
@@ -56,12 +56,19 @@ git clone https://github.com/TanmayaChoudhury/azure-aks-cluster-terraform.git
 ```console
 cd azure-aks-cluster-terraform
 ```
-rgname="aks-rg"
-location="canadacentral"
-service_principal_name="aks-sp"
-keyvault_name="tanmaya-portfolio-aks-kv"
-SUB_ID="85f9051c-3d5f-4da3-bc26-34686532"
+### 2. Configure Variables
 
+Edit the terraform.tfvars file with your specific values:
+
+Example terraform.tfvars
+
+```hcl
+rgname                  = "aks-rg"
+location                = "canadacentral"
+service_principal_name  = "aks-sp"
+keyvault_name           = "tanmaya-portfolio-aks-kv"
+SUB_ID                  = "85f9051c-3d5f-4da3-bc26-34686532"
+```
 
 ### 3. Initialize Terraform
 
@@ -84,12 +91,12 @@ terraform apply
 ```
 ## ⚠️ Common Issues & Solutions
 
+### ⚠️ Common Issues & Solutions
+
 | **Issue**                                    | **Root Cause**                                                              | **Solution**                                                                                                   |
 | :------------------------------------------- | :-------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- |
 | **403 Forbidden on Key Vault Secret Access** | Terraform Service Principal (SPN) lacked permissions on the Azure Key Vault | Assign **Key Vault Secrets Officer** role to both **Terraform SPN** and the created SPN at the Key Vault scope |
 | **403 on Role Assignment Creation**          | Terraform SPN didn't have permission to assign roles at subscription level  | Assign **User Access Administrator** role to the Terraform SPN at **subscription scope**                       |
-| **Resource Group Already Exists**            | Trying to create a resource group that already exists                       | Either use a different name or import the existing resource group                                              |
-| **Insufficient Quota**                       | VM size or region doesn't have enough quota                                 | Choose a different VM size or request a quota increase                                                         |
 
 ## 🔧 Configuration Options
 
