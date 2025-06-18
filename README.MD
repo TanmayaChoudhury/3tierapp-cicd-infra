@@ -124,9 +124,9 @@ The project uses a modular structure for better organization:
 
 After successful deployment, the following outputs will be available:
 
-**Resource Group Name**
-**Service Principal Client ID**
-**Service Principal Client SECRET(Sensitive)**
+- **Resource Group Name**
+- **Service Principal Client ID**
+- **Service Principal Client SECRET(Sensitive)**
 
 
 ### 🧹 Cleanup
