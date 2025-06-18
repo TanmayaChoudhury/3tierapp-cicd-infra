@@ -8,18 +8,19 @@ This project provisions an **Azure Kubernetes Service (AKS)** cluster using **Te
 
 
 .
-├── main.tf
-├── variables.tf
-├── outputs.tf
-├── providers.tf
-├── terraform.tfvars
+├── main.tf                    # Main Terraform configuration
+├── variables.tf               # Input variable definitions
+├── outputs.tf                 # Output definitions
+├── providers.tf               # Provider configurations
+├── terraform.tfvars           # Variable values file
 ├── modules/
-│   ├── keyvault/
-│   ├── service-principal/
-│   ├── networking/
-│   └── ...
-├── .gitignore
-└── README.md
+│   ├── keyvault/              # Module for Azure Key Vault
+│   ├── service-principal/     # Module for Service Principal creation
+│   ├── aks-cluster/           # Module for AKS cluster creation
+│   └── ...                    # (other potential modules)
+├── .gitignore                 # Files and directories to ignore in Git
+└── README.md                  # Project documentation (this file)
+
 
 ---
 
