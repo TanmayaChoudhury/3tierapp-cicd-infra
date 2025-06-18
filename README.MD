@@ -2,28 +2,6 @@
 
 This project provisions an **Azure Kubernetes Service (AKS)** cluster using **Terraform**. It automates the creation of necessary infrastructure components like the **Resource Group**, **AKS Cluster**, **Service Principal**, **Key Vault**, and **Role Assignments** — ensuring a fully automated and secure deployment process.
 
----
-
-## 📌 Project Structure
-
-
-.
-├── main.tf                    # Main Terraform configuration
-├── variables.tf               # Input variable definitions
-├── outputs.tf                 # Output definitions
-├── providers.tf               # Provider configurations
-├── terraform.tfvars           # Variable values file
-├── modules/
-│   ├── keyvault/              # Module for Azure Key Vault
-│   ├── service-principal/     # Module for Service Principal creation
-│   ├── aks-cluster/           # Module for AKS cluster creation
-│   └── ...                    # (other potential modules)
-├── .gitignore                 # Files and directories to ignore in Git
-└── README.md                  # Project documentation (this file)
-
-
----
-
 ## 🏗️ Infrastructure Components
 
 This Terraform configuration creates the following Azure resources:
