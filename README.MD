@@ -56,17 +56,12 @@ git clone https://github.com/TanmayaChoudhury/azure-aks-cluster-terraform.git
 ```console
 cd azure-aks-cluster-terraform
 ```
-### 2. Configure Variables
+rgname="aks-rg"
+location="canadacentral"
+service_principal_name="aks-sp"
+keyvault_name="tanmaya-portfolio-aks-kv"
+SUB_ID="85f9051c-3d5f-4da3-bc26-34686532"
 
-Edit the terraform.tfvars file with your specific values:
-
-#Example terraform.tfvars
-
-resource_group_name = "rg-aks-prod"
-location           = "East US"
-cluster_name       = "aks-cluster-prod"
-node_count         = 3
-vm_size           = "Standard_DS2_v2"
 
 ### 3. Initialize Terraform
 
