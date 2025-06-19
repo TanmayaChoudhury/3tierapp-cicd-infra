@@ -105,7 +105,7 @@ terraform apply
 | **Variable**             | **Description**                  | **Default**          | **Required** |
 | :----------------------- | :------------------------------- | :------------------- | :----------- |
 | `rgname`                 | Name of the Azure Resource Group | `-`                  | ✅ Yes        |
-| `location`               | Azure region                     | `East US` (optional) | ❌ No         |
+| `location`               | Azure region                     | `-`                  | ❌ No         |
 | `service_principal_name` | Name for the Service Principal   | `-`                  | ✅ Yes        |
 | `keyvault_name`          | Name for the Azure Key Vault     | `-`                  | ✅ Yes        |
 | `SUB_ID`                 | Azure Subscription ID            | `-`                  | ✅ Yes        |
@@ -127,6 +127,14 @@ After successful deployment, the following outputs will be available:
 - **Resource Group Name**
 - **Service Principal Client ID**
 - **Service Principal Client SECRET(Sensitive)**
+- **Kubeconfig File**:  
+  A local file named `kubeconfig` will be generated in our project directory, containing the AKS cluster connection configuration.  
+  👉 We can use it to interact with your AKS cluster:
+  ```bash
+  kubectl --kubeconfig=./kubeconfig get nodes
+  ```
+
+  📌 **Note:** This file is generated locally during `terraform apply` and should be secured and/or added to `.gitignore`.
 
 
 ### 🧹 Cleanup
@@ -156,4 +164,3 @@ Regularly update Terraform providers and modules for security patches
 
 ### 📌 Author
 **Tanmaya Choudhury**
-🔗 GitHub Profile
