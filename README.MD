@@ -105,7 +105,7 @@ terraform apply
 | **Variable**             | **Description**                  | **Default**          | **Required** |
 | :----------------------- | :------------------------------- | :------------------- | :----------- |
 | `rgname`                 | Name of the Azure Resource Group | `-`                  | ✅ Yes        |
-| `location`               | Azure region                     | `-`                  | ❌ No         |
+| `location`               | Azure region                     | `-`                  | ✅ Yes        |
 | `service_principal_name` | Name for the Service Principal   | `-`                  | ✅ Yes        |
 | `keyvault_name`          | Name for the Azure Key Vault     | `-`                  | ✅ Yes        |
 | `SUB_ID`                 | Azure Subscription ID            | `-`                  | ✅ Yes        |
