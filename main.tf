@@ -27,6 +27,18 @@ resource "azurerm_role_assignment" "rolespn" {
 
 }
 
+resource "azurerm_role_assignment" "rolespn1" {
+
+  scope                = "/subscriptions/${var.SUB_ID}"
+  role_definition_name = "User Access Administrator"
+  principal_id         = module.ServicePrincipal.service_principal_object_id
+
+  depends_on = [
+    module.ServicePrincipal
+  ]
+
+}
+
 module "keyvault" {
   source                      = "./modules/keyvault"
   keyvault_name               = var.keyvault_name
@@ -105,4 +117,22 @@ resource "azurerm_role_assignment" "terraform_sp_keyvault_access" {
   depends_on = [
     module.keyvault
   ]
+}
+
+resource "azurerm_container_registry" "acr" {
+  name                = var.acr_name
+  resource_group_name = azurerm_resource_group.rg1.name
+  location            = azurerm_resource_group.rg1.location
+  sku                 = "Standard"
+}
+
+resource "azurerm_role_assignment" "example" {
+  principal_id                     = module.ServicePrincipal.service_principal_object_id
+  role_definition_name             = "AcrPull"
+  scope                            = azurerm_container_registry.acr.id
+  skip_service_principal_aad_check = true
+  depends_on = [ 
+    azurerm_container_registry.acr,
+    module.aks
+   ]
 }

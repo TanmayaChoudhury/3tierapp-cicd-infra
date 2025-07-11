@@ -13,3 +13,4 @@ output "aks_cluster_fqdn" {
   description = "The FQDN of the AKS cluster's API server."
   value       = azurerm_kubernetes_cluster.aks-cluster.fqdn
 }
+
