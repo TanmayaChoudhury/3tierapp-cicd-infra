@@ -1,0 +1,73 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- manual
+
+stages:
+  - stage: Plan
+    jobs:
+      - job: Plan
+        pool:
+         vmImage: 'ubuntu-latest'
+        steps:
+          - task: TerraformInstaller@1
+            inputs:
+              terraformVersion: 'latest'
+
+          - task: TerraformTask@5
+            displayName: Terraform Init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'Azure subscription 1(85f9051c-3d5f-4da3-bc26-5660c9b51169)'
+              backendAzureRmOverrideSubscriptionID: '85f9051c-3d5f-4da3-bc26-5660c9b51169'
+              backendAzureRmResourceGroupName: 'terraformbackend'
+              backendAzureRmStorageAccountName: 'terraform14586'
+              backendAzureRmContainerName: 'tfstate'
+              backendAzureRmKey: 'dev.terraform.tfstate'
+
+          - task: TerraformTask@5
+            displayName: Terraform Plan
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              environmentServiceNameAzureRM: 'Azure subscription 1(85f9051c-3d5f-4da3-bc26-5660c9b51169)'
+              environmentAzureRmOverrideSubscriptionID: '85f9051c-3d5f-4da3-bc26-5660c9b51169'
+
+      
+  - stage: Create
+    jobs:
+      - job: Create
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: TerraformInstaller@1
+            inputs:
+              terraformVersion: 'latest'
+
+          - task: TerraformTask@5
+            displayName: Terraform Init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'Azure subscription 1(85f9051c-3d5f-4da3-bc26-5660c9b51169)'
+              backendAzureRmOverrideSubscriptionID: '85f9051c-3d5f-4da3-bc26-5660c9b51169'
+              backendAzureRmResourceGroupName: 'terraformbackend'
+              backendAzureRmStorageAccountName: 'terraform14586'
+              backendAzureRmContainerName: 'tfstate'
+              backendAzureRmKey: 'dev.terraform.tfstate'
+
+          - task: TerraformTask@5
+            displayName: Terraform Apply
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
+              commandOptions: '--auto-approve'
+              environmentServiceNameAzureRM: 'Azure subscription 1(85f9051c-3d5f-4da3-bc26-5660c9b51169)'
+              environmentAzureRmOverrideSubscriptionID: '85f9051c-3d5f-4da3-bc26-5660c9b51169'
+
+          
+
