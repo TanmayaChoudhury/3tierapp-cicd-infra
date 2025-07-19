@@ -6,6 +6,26 @@
 trigger:
 - manual
 
+variables:
+
+  - name: ServiceConnection
+    value: 'Azure subscription 1(85f9051c-3d5f-4da3-bc26-5660c9b51169)'
+
+  - name: ResourceGroupName
+    value: 'terraformbackend'
+
+  - name: StorageAccountName
+    value: 'terraform14586'
+
+  - name: ContainerName
+    value: 'tfstate'
+
+  - name: Key
+    value: 'dev.terraform.tfstate'
+
+  - name: SubscriptionID
+    value: '85f9051c-3d5f-4da3-bc26-5660c9b51169'
+
 stages:
   - stage: Plan
     jobs:
