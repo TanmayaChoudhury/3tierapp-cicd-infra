@@ -26,12 +26,15 @@ variables:
   - name: SubscriptionID
     value: '85f9051c-3d5f-4da3-bc26-5660c9b51169'
 
+  - name: vmImangeName
+    value: 'ubuntu-latest'
+
 stages:
   - stage: Plan
     jobs:
       - job: Plan
         pool:
-         vmImage: 'ubuntu-latest'
+         vmImage: '${vmImangeName}'
         steps:
           - task: TerraformInstaller@1
             inputs:
@@ -42,27 +45,27 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
-              backendServiceArm: 'Azure subscription 1(85f9051c-3d5f-4da3-bc26-5660c9b51169)'
-              backendAzureRmOverrideSubscriptionID: '85f9051c-3d5f-4da3-bc26-5660c9b51169'
-              backendAzureRmResourceGroupName: 'terraformbackend'
-              backendAzureRmStorageAccountName: 'terraform14586'
-              backendAzureRmContainerName: 'tfstate'
-              backendAzureRmKey: 'dev.terraform.tfstate'
+              backendServiceArm: ${ServiceConnection}
+              backendAzureRmOverrideSubscriptionID: ${SubscriptionID}
+              backendAzureRmResourceGroupName:  ${ResourceGroupName}
+              backendAzureRmStorageAccountName: ${StorageAccountName}
+              backendAzureRmContainerName: ${ContainerName}
+              backendAzureRmKey: ${Key}
 
           - task: TerraformTask@5
             displayName: Terraform Plan
             inputs:
               provider: 'azurerm'
               command: 'plan'
-              environmentServiceNameAzureRM: 'Azure subscription 1(85f9051c-3d5f-4da3-bc26-5660c9b51169)'
-              environmentAzureRmOverrideSubscriptionID: '85f9051c-3d5f-4da3-bc26-5660c9b51169'
+              environmentServiceNameAzureRM: ${ServiceConnection}
+              environmentAzureRmOverrideSubscriptionID: ${SubscriptionID}
 
       
   - stage: Create
     jobs:
       - job: Create
         pool:
-          vmImage: 'ubuntu-latest'
+          vmImage: ${vmImangeName}
         steps:
           - task: TerraformInstaller@1
             inputs:
@@ -73,12 +76,12 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
-              backendServiceArm: 'Azure subscription 1(85f9051c-3d5f-4da3-bc26-5660c9b51169)'
-              backendAzureRmOverrideSubscriptionID: '85f9051c-3d5f-4da3-bc26-5660c9b51169'
-              backendAzureRmResourceGroupName: 'terraformbackend'
-              backendAzureRmStorageAccountName: 'terraform14586'
-              backendAzureRmContainerName: 'tfstate'
-              backendAzureRmKey: 'dev.terraform.tfstate'
+              backendServiceArm: ${ServiceConnection}
+              backendAzureRmOverrideSubscriptionID: ${SubscriptionID}
+              backendAzureRmResourceGroupName: '${ResourceGroupName}'
+              backendAzureRmStorageAccountName: '${StorageAccountName}'
+              backendAzureRmContainerName:  '${ContainerName}'
+              backendAzureRmKey: '${Key}'
 
           - task: TerraformTask@5
             displayName: Terraform Apply
@@ -86,8 +89,8 @@ stages:
               provider: 'azurerm'
               command: 'apply'
               commandOptions: '--auto-approve'
-              environmentServiceNameAzureRM: 'Azure subscription 1(85f9051c-3d5f-4da3-bc26-5660c9b51169)'
-              environmentAzureRmOverrideSubscriptionID: '85f9051c-3d5f-4da3-bc26-5660c9b51169'
+              environmentServiceNameAzureRM: ${ServiceConnection}
+              environmentAzureRmOverrideSubscriptionID: ${SubscriptionID}
 
           
 
