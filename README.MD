@@ -1,19 +1,35 @@
 
+
 # 📄 AKS Cluster Infrastructure Deployment on Azure with Terraform & Azure DevOps CI/CD
 
+> **⚠️ Project Status: Work in Progress**
+>
+> This repository currently provisions only the infrastructure for a 3-tier microservice website on AKS using Terraform and Azure DevOps CI/CD. Application deployment and full 3-tier microservice setup are under development and will be added in future updates.
 
-This project provisions an **Azure Kubernetes Service (AKS)** cluster using **Terraform** and automates infrastructure deployment with **Azure DevOps CI/CD pipelines**. It creates all necessary Azure resources (Resource Group, AKS Cluster, Service Principal, Key Vault, Role Assignments) in a modular, secure, and fully automated way.
+
+
+This project provisions the infrastructure for an **Azure Kubernetes Service (AKS)** cluster using **Terraform** and automates deployment with **Azure DevOps CI/CD pipelines**. The goal is to support a 3-tier microservice website architecture. All necessary Azure resources (Resource Group, AKS Cluster, Service Principal, Key Vault, Container Registry, Role Assignments) are created in a modular, secure, and automated way.
+
 
 ## 🏗️ Infrastructure Components
 
-This Terraform configuration creates the following Azure resources:
+
+This Terraform configuration provisions the following Azure resources:
 
 - **Resource Group** — Container for all resources
-- **AKS Cluster** — Managed Kubernetes service
-- **Service Principal** — Authentication for AKS cluster
+- **Service Principal** — Includes Azure AD Application, Service Principal, and Password (for AKS authentication)
+- **Role Assignments** —
+  - Contributor (for Service Principal at subscription scope)
+  - User Access Administrator (for Service Principal at subscription scope)
+  - Key Vault Secrets Officer (for Service Principal at Key Vault scope)
+  - AcrPull (for Service Principal at Container Registry scope)
 - **Key Vault** — Secure storage for secrets and certificates
-- **Virtual Network** — Network infrastructure for the cluster
-- **Role Assignments** — Proper permissions and access control
+- **Key Vault Secret** — Stores the Service Principal client secret
+- **Azure Container Registry (ACR)** — For storing and managing container images
+- **AKS Cluster** — Managed Kubernetes service with default node pool and SSH key
+- **Kubeconfig Output** — Local file for cluster access configuration
+
+> **Note:** The project does not provision a Virtual Network directly; AKS uses its own node resource group and networking by default. You can extend the modules to add custom VNet/subnet if needed.
 
 ---
 
@@ -143,18 +159,20 @@ The project uses a modular structure for better organization:
 
 **keyvault/** - Azure Key Vault configuration
 **service-principal/** - Service Principal creation and management
-**aks-cluster/** - Virtual Network and subnet configuration
+**aks-cluster/** - AKS cluster configuration (no custom VNet/subnet yet)
 
 ### 📊 Outputs
+
 
 After successful deployment, the following outputs will be available:
 
 - **Resource Group Name**
 - **Service Principal Client ID**
-- **Service Principal Client SECRET(Sensitive)**
+- **Service Principal Client SECRET (Sensitive)**
+- **Azure Container Registry Name**
 - **Kubeconfig File**:  
-  A local file named `kubeconfig` will be generated in our project directory, containing the AKS cluster connection configuration.  
-  👉 We can use it to interact with your AKS cluster:
+  A local file named `kubeconfig` will be generated in your project directory, containing the AKS cluster connection configuration.  
+  👉 Use it to interact with your AKS cluster:
   ```bash
   kubectl --kubeconfig=./kubeconfig get nodes
   ```
