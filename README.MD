@@ -76,6 +76,7 @@ cd 3tierapp-cicd-infra
 
 Edit the terraform.tfvars file with your specific values:
 
+
 Example terraform.tfvars
 
 ```hcl
@@ -84,6 +85,7 @@ location                = "canadacentral"
 service_principal_name  = "aks-sp"
 keyvault_name           = "tanmaya-portfolio-aks-kv"
 SUB_ID                  = "85f9051c-3d5f-4da3-bc26-34686532"
+acr_name                = "myacrname"
 ```
 
 ### 3. Initialize Terraform
@@ -143,13 +145,15 @@ This project integrates with **Azure DevOps Pipelines** for automated infrastruc
 
 ### Key Variables
 
-| **Variable**             | **Description**                  | **Default**          | **Required** |
-| :----------------------- | :------------------------------- | :------------------- | :----------- |
-| `rgname`                 | Name of the Azure Resource Group | `-`                  | ✅ Yes        |
-| `location`               | Azure region                     | `-`                  | ✅ Yes        |
-| `service_principal_name` | Name for the Service Principal   | `-`                  | ✅ Yes        |
-| `keyvault_name`          | Name for the Azure Key Vault     | `-`                  | ✅ Yes        |
-| `SUB_ID`                 | Azure Subscription ID            | `-`                  | ✅ Yes        |
+
+| **Variable**             | **Description**                        | **Default** | **Required** |
+| :----------------------- | :------------------------------------- | :---------- | :----------- |
+| `rgname`                 | Name of the Azure Resource Group       | `-`         | ✅ Yes        |
+| `location`               | Azure region                           | `-`         | ✅ Yes        |
+| `service_principal_name` | Name for the Service Principal         | `-`         | ✅ Yes        |
+| `keyvault_name`          | Name for the Azure Key Vault           | `-`         | ✅ Yes        |
+| `SUB_ID`                 | Azure Subscription ID                  | `-`         | ✅ Yes        |
+| `acr_name`               | Name for the Azure Container Registry  | `-`         | ✅ Yes        |
 
 
 
@@ -164,20 +168,14 @@ The project uses a modular structure for better organization:
 ### 📊 Outputs
 
 
+
 After successful deployment, the following outputs will be available:
 
-- **Resource Group Name**
-- **Service Principal Client ID**
-- **Service Principal Client SECRET (Sensitive)**
-- **Azure Container Registry Name**
-- **Kubeconfig File**:  
-  A local file named `kubeconfig` will be generated in your project directory, containing the AKS cluster connection configuration.  
-  👉 Use it to interact with your AKS cluster:
-  ```bash
-  kubectl --kubeconfig=./kubeconfig get nodes
-  ```
+- **Resource Group Name** (`resource_group_name`)
+- **Service Principal Client ID** (`client_id`)
+- **Service Principal Client SECRET (Sensitive)** (`client_secret`)
 
-  📌 **Note:** This file is generated locally during `terraform apply` and should be secured and/or added to `.gitignore`.
+> **Note:** If you want to output additional values (e.g., ACR name, kubeconfig), add them to `output.tf`.
 
 
 ### 🧹 Cleanup
