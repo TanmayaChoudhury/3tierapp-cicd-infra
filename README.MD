@@ -1,6 +1,8 @@
-# 📄 AKS Cluster Infrastructure Deployment on Azure using Terraform
 
-This project provisions an **Azure Kubernetes Service (AKS)** cluster using **Terraform**. It automates the creation of necessary infrastructure components like the **Resource Group**, **AKS Cluster**, **Service Principal**, **Key Vault**, and **Role Assignments** — ensuring a fully automated and secure deployment process.
+# 📄 AKS Cluster Infrastructure Deployment on Azure with Terraform & Azure DevOps CI/CD
+
+
+This project provisions an **Azure Kubernetes Service (AKS)** cluster using **Terraform** and automates infrastructure deployment with **Azure DevOps CI/CD pipelines**. It creates all necessary Azure resources (Resource Group, AKS Cluster, Service Principal, Key Vault, Role Assignments) in a modular, secure, and fully automated way.
 
 ## 🏗️ Infrastructure Components
 
@@ -45,16 +47,14 @@ Verify your current subscription
 az account show
 ```
 
-## 🚀 Deployment Instructions
+
+## 🚀 Deployment Instructions (Manual)
 
 ### 1. Clone the Repository
 
 ```console
-git clone https://github.com/TanmayaChoudhury/azure-aks-cluster-terraform.git
-```
-
-```console
-cd azure-aks-cluster-terraform
+git clone https://github.com/TanmayaChoudhury/3tierapp-cicd-infra.git
+cd 3tierapp-cicd-infra
 ```
 ### 2. Configure Variables
 
@@ -89,6 +89,31 @@ Review the planned changes carefully before proceeding.
 ```console
 terraform apply
 ```
+
+---
+
+## 🤖 CI/CD with Azure DevOps
+
+This project integrates with **Azure DevOps Pipelines** for automated infrastructure provisioning and teardown. The following YAML pipeline files are included:
+
+- `Create-infra.yml` — Deploys all infrastructure using Terraform (run on PR merge or manually)
+- `Destroy-infra.yml` — Destroys all provisioned resources (run manually for cleanup)
+
+### Setting up Azure DevOps Pipelines
+
+1. **Import the repository** into your Azure DevOps project.
+2. **Create two pipelines**:
+   - One using `Create-infra.yml` for provisioning
+   - One using `Destroy-infra.yml` for teardown
+3. **Configure pipeline variables/secrets** for Azure credentials, subscription ID, and any sensitive values (use Azure DevOps Library or variable groups).
+4. **Run the pipelines** as needed:
+   - On code changes/PR merge: triggers `Create-infra.yml`
+   - For cleanup: run `Destroy-infra.yml` manually
+
+> **Tip:** Review and update the YAML files to match your Azure DevOps environment and naming conventions.
+
+---
+
 ## ⚠️ Common Issues & Solutions
 
 ### ⚠️ Common Issues & Solutions
@@ -162,5 +187,10 @@ Avoid committing .tfstate files or sensitive configurations to version control
 The project uses a modular Terraform structure for better scalability and reuse
 Regularly update Terraform providers and modules for security patches
 
+
+---
+
 ### 📌 Author
 **Tanmaya Choudhury**
+Project: 3tierapp-cicd-infra
+GitHub: [TanmayaChoudhury/3tierapp-cicd-infra](https://github.com/TanmayaChoudhury/3tierapp-cicd-infra)
